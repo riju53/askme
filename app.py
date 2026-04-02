@@ -8,7 +8,7 @@ os.environ["GROQ_API_KEY"] = "gsk_mHWsYZXK172FWyW6eS7AWGdyb3FYXumLryE6w8Jllm1tnt
 
 # Initialize Groq model
 model = ChatGroq(
-    model="llama-3.1-8b-instant",   # ✅ working model
+    model="openai/gpt-oss-120b",   # ✅ working model
     temperature=0.7,
     max_tokens=256
 )
