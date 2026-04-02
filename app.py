@@ -1,31 +1,30 @@
-import os
 import streamlit as st
-
 import os
-os.environ["HUGGINGFACEHUB_API_TOKEN"]="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"
+from langchain_groq import ChatGroq
 
-from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
+# Load API key from Streamlit secrets
+groq_api_key = st.secrets["GROQ_API_KEY"]
+os.environ["GROQ_API_KEY"] = "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"
 
-# Initialize model
-llm = HuggingFaceEndpoint(
-    repo_id="meta-llama/Llama-3.1-8B-Instruct",
-    temperature=0.1,
-    max_new_tokens=500
+# Initialize Groq model
+model = ChatGroq(
+    model="llama-3.1-8b-instant",   # ✅ working model
+    temperature=0.7,
+    max_tokens=256
 )
 
-model = ChatHuggingFace(llm=llm)
-
-# Streamlit UI
+# UI
 st.title("Askme anything 🚀")
 
 with st.form('my_form'):
-    text = st.text_area('Enter text:', '...')
-    submit = st.form_submit_button('Ask')
+    text = st.text_input('Enter text:')
+    submit = st.form_submit_button('Ask me')
 
 if submit:
     if text.strip():
         with st.spinner("Thinking..."):
+            st.write("Model loaded ✅")
             response = model.invoke(text)
-            st.success(response.content)
+            st.write(response.content)
     else:
         st.warning("Please enter a question!")
